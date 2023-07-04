@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = 'sqlite'
+  url      = 'file:./dev.db'
+}
+
+plugin zod {
+  provider = '@core/zod'
+}
+
+model Signup {
+  id Int @id @default(autoincrement())
+  name String
+  email String @email @endsWith("@zenstack.dev", 'Must be a @zenstack.dev email')
+  adult Boolean
+  beverage String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@allow('create,read', true)
+
+  // sqlite doesn't support enum, you should use enum in a real application
+  @@validate(beverage in ['SODA', 'COFFEE', 'BEER', 'COCKTAIL'], 'Please choose a valid beverage')
+
+  @@validate(adult || beverage in ['SODA', 'COFFEE'], 'You must be an adult to drink alcohol')
+}
