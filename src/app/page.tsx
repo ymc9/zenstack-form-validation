@@ -2,9 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ReactNode, useState } from 'react';
-import { FieldError, FieldErrors, useForm } from 'react-hook-form';
-import { SignupCreateSchema } from '@zenstackhq/runtime/zod/models';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { FieldError, useForm } from 'react-hook-form';
 
 function FormRow({
     label,
@@ -45,13 +43,10 @@ export default function Signup() {
         formState: { errors },
     } = useForm<Input>({
         defaultValues: { beverage: '' },
-        resolver: zodResolver(SignupCreateSchema),
     });
 
     const [serverError, setServerError] = useState('');
     const router = useRouter();
-
-    const toplevelError = (errors as FieldErrors)['']?.message?.toString();
 
     console.log(errors);
 
@@ -137,10 +132,6 @@ export default function Signup() {
 
                     {serverError && (
                         <p className="text-red-600 text-sm">{serverError}</p>
-                    )}
-
-                    {toplevelError && (
-                        <p className="text-red-600 text-sm">{toplevelError}</p>
                     )}
                 </form>
             </div>
