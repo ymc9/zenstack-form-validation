@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { ReactNode, useState } from 'react';
 import { FieldError, useForm } from 'react-hook-form';
 
@@ -46,7 +45,6 @@ export default function Signup() {
     });
 
     const [serverError, setServerError] = useState('');
-    const router = useRouter();
 
     console.log(errors);
 
@@ -61,7 +59,7 @@ export default function Signup() {
         if (resp.status !== 201) {
             setServerError(await resp.text());
         } else {
-            router.push('/thankyou');
+            alert('Thank you for signing up!');
         }
     }
 
